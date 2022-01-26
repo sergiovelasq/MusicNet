@@ -1,27 +1,8 @@
-from principal import *
+
 from tkinter import *
 from ayudas import *
 import registro
 
-
-def iniciaracceder(principal):
-    
-    acceder = Toplevel()
-    crearventana(acceder)
-
-    def volver(event=None):
-
-        acceder.destroy()
-        principal.update()
-        principal.deiconify()
-
-    def siguiente(event=None):
-
-        acceder.destroy()
-        registro.iniciarregistro(principal)
-
-    crearbarra(acceder, volver, siguiente)
-    
 def crearventana(ventana):
 
     ventana.title("MusicNet")
@@ -38,7 +19,7 @@ def crearventana(ventana):
 
     titulo=Frame(ventana, bg=goldenrod)
     titulo.place(in_=ventana, anchor="c", relx=0.5, rely=0.2)
-    textotitulo=Label(titulo, text="Acceder", font=("Times New Roman", 70),
+    textotitulo=Label(titulo, text="Lista de Musicos", font=("Times New Roman", 70),
                       fg=gold4, bg=goldenrod)
     textotitulo.grid(row=0, column=0, padx=10, pady=10)
 
@@ -54,3 +35,14 @@ def crearbarra(ventana, f1, f2):
 
     barra.pack(side=TOP, fill=X)
 
+def iniciarlistademusicos(principal):
+
+    listademusicos = Toplevel()
+    crearventana(listademusicos)
+
+    def volver(event=None):
+
+        listademusicos.destroy()
+        registro.iniciarregistro(principal)
+
+    crearbarra(listademusicos, volver)

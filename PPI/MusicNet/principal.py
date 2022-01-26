@@ -1,27 +1,10 @@
-from principal import *
+from acceder import *
 from tkinter import *
 from ayudas import *
-import registro
 
 
-def iniciaracceder(principal):
-    
-    acceder = Toplevel()
-    crearventana(acceder)
+principal = Tk()
 
-    def volver(event=None):
-
-        acceder.destroy()
-        principal.update()
-        principal.deiconify()
-
-    def siguiente(event=None):
-
-        acceder.destroy()
-        registro.iniciarregistro(principal)
-
-    crearbarra(acceder, volver, siguiente)
-    
 def crearventana(ventana):
 
     ventana.title("MusicNet")
@@ -38,19 +21,33 @@ def crearventana(ventana):
 
     titulo=Frame(ventana, bg=goldenrod)
     titulo.place(in_=ventana, anchor="c", relx=0.5, rely=0.2)
-    textotitulo=Label(titulo, text="Acceder", font=("Times New Roman", 70),
+    textotitulo=Label(titulo, text="Descripcion", font=("Times New Roman", 70),
                       fg=gold4, bg=goldenrod)
     textotitulo.grid(row=0, column=0, padx=10, pady=10)
 
-def crearbarra(ventana, f1, f2):
+    def funcontinuar(event=None):
+        iniciaracceder()
+        ventana.withdraw()
+
+    panelboton=Frame(ventana, bg=goldenrod)
+    panelboton.place(in_=ventana, anchor="c", relx=0.9, rely=0.9)
+    continuar=Button(panelboton, text="Continuar", command=funcontinuar())
+    continuar.grid(row=0, column=0, padx=10, pady=10)
+
+def crearbarra(ventana):
     barra=Frame(ventana, bd=1, relief=RAISED)
     barra.pack(side=TOP, fill=X)
 
-    volver=Button(barra, text="volver", command=f1)
-    volver.pack(side=LEFT, padx=2, pady=2)
+    def salir():
+        ventana.quit()
 
-    siguiente = Button(barra, text="Siguiente", command=f2)
-    siguiente.pack(side=RIGHT, padx=2, pady=2)
+    salir=Button(barra, text="Salir", command=salir)
+    salir.pack(side=RIGHT, padx=2, pady=2)
 
     barra.pack(side=TOP, fill=X)
 
+crearventana(principal)
+crearbarra(principal)
+
+
+principal.mainloop()
