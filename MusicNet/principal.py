@@ -20,6 +20,7 @@ def crearventana(ventana):
     interfaz.pack()
     Label(interfaz, text="MusicNet", fg="black", font=("Baskerville Old Face", 20)).place(x=350, y=10)
     Label(interfaz, text="Descripción de la app", fg="black", font=("Lucida Fax", 15)).place(x=300, y=200)
+    
    
 
     def continuar():

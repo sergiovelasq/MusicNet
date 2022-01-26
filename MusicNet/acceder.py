@@ -70,7 +70,7 @@ def crearpanellogin(ventana, f1, f2):
         acceder.destroy()
         registro.iniciarregistro(principal)
     
-    registrarse = Button(login, text="Registrarse", fg="black", command=registrarse(ventana)
+    registrarse = Button(login, text="Registrarse", fg="black", command=registrarse(ventana))
     registrarse.place(x=300, y=250)
 
     iniciarsesion=Button(login, text="Ingresar", fg="black", command=lambda: funingresar(ingresarusuario.get(), passwordusuario.get()))
