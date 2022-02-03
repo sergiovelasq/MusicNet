@@ -1,44 +1,86 @@
-
 from tkinter import *
-from ayudas import *
+import tkinter
+from acceder import *
 import acceder
-import listademusicos
 
 def crearventana(ventana):
+    ventana.title("MusicNet5")
+    ventana.iconbitmap(r'c:\Sergio\Introduccion a la programacion\PPI\Guitar.ico')
+    ventana.configure(background="goldenrod")
+    ventana.config(width="800", height="400")
+    ventana.config(bd=45, relief="sunken")
 
-    ventana.title("MusicNet")
-    ventana.configure(bg=goldenrod)
+def crearpanelregistrarse(ventana, root1, f1):
+    
+    miframe=Frame(ventana, bd=1, relief=RAISED, background="goldenrod")
+    miframe.place(in_=ventana, anchor="c", relx=.5, relt=.5)
 
-    anchoventana=ventana.winfo_reqwidth()
-    altoventana=ventana.winfo_reqheight()
+    usuariolabel = Label(miframe, text="Usuario: ", background="goldenrod")
+    usuariolabel.grid(row=0, column=0, sticky="w", padx=10, pady=10)
 
-    positionderecha=int(ventana.winfo_screenwidth()/2-anchoventana/2)
-    positionabajo=int(ventana.winfo_reqheight()/2-altoventana/2)
+    cuadrousuario=Entry(miframe)
+    cuadrousuario.grid(row=0, column=1, pady=10)
+    cuadrousuario.config(justify="center")
 
-    ventana.geometry("1000x600".format(positionderecha, positionabajo))
-    ventana.wm_attributes('-toolwindow', 1)
+    contraseñalabel = Label(miframe, text="Contraseña: ", background="goldenrod")
+    contraseñalabel.grid(row=2, column=0, sticky="w", padx=10, pady=10)
 
-    titulo=Frame(ventana, bg=goldenrod)
-    titulo.place(in_=ventana, anchor="c", relx=0.5, rely=0.2)
-    textotitulo=Label(titulo, text="Registro", font=("Times New Roman", 70),
-                      fg=gold4, bg=goldenrod)
-    textotitulo.grid(row=0, column=0, padx=10, pady=10)
+    cuadrocontraseña=Entry(miframe)
+    cuadrocontraseña.grid(row=2, column=1, padx=10, pady=10)
+    cuadrocontraseña.config(show="*", justify="center")
 
-def crearbarra(ventana, f1, f2):
-    barra=Frame(ventana, bd=1, relief=RAISED)
-    barra.pack(side=TOP, fill=X)
+    botoncancelar = Button(miframe, text="Cancelar: ", fg="goldenrod", bg="blue", command=f1)
+    botoncancelar.grid(row=3, column=0, sticky="w", padx=10, pady=10)
 
-    volver=Button(barra, text="volver", command=f1)
-    volver.pack(side=LEFT, padx=2, pady=2)
+    botonregistrarse=Button(miframe, text="Registrarse", fg="blue", bg="goldenrod", command=lambda: validarregistro(cuadrousuario.get(), cuadrocontraseña.get(), ventana, root1))
+    botonregistrarse.grid(row=3, column=1, sticky="w", padx=10, pady=10)
 
-    siguiente = Button(barra, text="Siguiente", command=f2)
-    siguiente.pack(side=RIGHT, padx=2, pady=2)
+    def limpiarcampos():
+        cuadrousuario.delete(0, 'end')
+        cuadrocontraseña.delete(0, 'end')
 
-    barra.pack(side=TOP, fill=X)
+    botonlimpiar=Button(miframe, text="Limpiar", fg="blue", bg="goldenrod", command=limpiarcampos())
+    botonlimpiar.grid(row=3, column=2, sticky="w", padx=10, pady=10)
+
+
+
+def validarregistro(usuario, password, ventana, root1):
+
+    if ((not usuario or not usuario.strip())and (not password or not password.strip())):
+        tkinter.messagebox.showinfo("Error de registro", "\nIngrese el usuario. \n\nIngrese el password.")
+    else:
+        archivo=open("listausuarios.txt", "r")
+        usuarios=archivo.readlines()
+
+        registar=[]
+        existe=False
+        for line in usuarios:
+            registrar=line.split()
+            if registrar[0]==usuario:
+                tkinter.messagebox.showinfo("Registro incorrecto", "\nYa existe un usuario con ese nombre de usuario." "\n\nIntente con un nombre de usuario diferente.")
+
+                exite=True
+                break
+            else:
+                if registrar[1]==password:
+                    tkinter.messagebox.showinfo("Registro incorrecto", "\nYa existe un usuario con esa contraseña." "\n\nIntente con una contraseña diferente.")
+
+                    exite=True
+                    break
+        archivo.close()
+            
+        if not existe:
+            tkinter.messagebox.showinfo("Usuario regitrado", "\nFelicitaciones." "\n\nRegistro exitoso.")
+            archivo=open("listausuarios.txt", "a+") 
+            archivo.writelines("\n"+usuario+" "+password)
+            archivo.close()
+            ventana.destroy()
+            root1.update()
+            root1.deiconify()
 
 def iniciarregistro(principal):
 
-    registro = Toplevel()
+    registro=Toplevel()
     crearventana(registro)
 
     def volver(event=None):
@@ -46,9 +88,4 @@ def iniciarregistro(principal):
         registro.destroy()
         acceder.iniciaracceder(principal)
 
-    def siguiente(event=None):
-
-        registro.destroy()
-        listademusicos.iniciarlistademusicos(principal)
-
-    crearbarra(registro, volver, siguiente)
+    crearpanelregistrarse(registro, volver)

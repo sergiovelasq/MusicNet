@@ -1,53 +1,56 @@
-from acceder import *
+
 from tkinter import *
-from ayudas import *
+from tkinter import messagebox
+from acceder import *
 
 
-principal = Tk()
+
+#from PIL import ImageTk, Image
+
+#img=ImageTk.PhotoImage(Image.open("imagenes/guitar.png"))
+
+principal=Tk()
 
 def crearventana(ventana):
+    ventana.title("MusicNet1")
+    ventana.iconbitmap(r'c:\Sergio\Introduccion a la programacion\PPI\Guitar.ico')
+    ventana.configure(background="goldenrod")
+    ventana.config(width="800", height="400")
+    ventana.config(bd=45, relief="sunken")
+    
+    interfaz = Frame(ventana, width=800, height=400)
+    interfaz.pack()
+    interfaz=Label(interfaz, text="MusicNet2", fg="black", font=("Baskerville Old Face", 20)).place(x=350, y=10)
+    interfaz=Label(interfaz, text="Descripción de la app", fg="black", font=("Lucida Fax", 15)).place(x=300, y=200)
+    #guitar=Label(image=img)
+    #guitar.pack()
+   
 
-    ventana.title("MusicNet")
-    ventana.configure(bg=goldenrod)
+    def continuar(event=None):
 
-    anchoventana=ventana.winfo_reqwidth()
-    altoventana=ventana.winfo_reqheight()
-
-    positionderecha=int(ventana.winfo_screenwidth()/2-anchoventana/2)
-    positionabajo=int(ventana.winfo_reqheight()/2-altoventana/2)
-
-    ventana.geometry("1000x600".format(positionderecha, positionabajo))
-    ventana.wm_attributes('-toolwindow', 1)
-
-    titulo=Frame(ventana, bg=goldenrod)
-    titulo.place(in_=ventana, anchor="c", relx=0.5, rely=0.2)
-    textotitulo=Label(titulo, text="Descripcion", font=("Times New Roman", 70),
-                      fg=gold4, bg=goldenrod)
-    textotitulo.grid(row=0, column=0, padx=10, pady=10)
-
-    def funcontinuar(event=None):
-        iniciaracceder()
+        iniciaracceder(ventana)
         ventana.withdraw()
 
-    panelboton=Frame(ventana, bg=goldenrod)
-    panelboton.place(in_=ventana, anchor="c", relx=0.9, rely=0.9)
-    continuar=Button(panelboton, text="Continuar", command=funcontinuar())
-    continuar.grid(row=0, column=0, padx=10, pady=10)
+    continuar=Button(ventana, text="Continuar", command=continuar)
+    continuar.pack()
+    continuar.place(x=370, y=320)
 
-def crearbarra(ventana):
-    barra=Frame(ventana, bd=1, relief=RAISED)
-    barra.pack(side=TOP, fill=X)
 
     def salir():
-        ventana.quit()
+        
+        respuesta=messagebox.askquestion("Salir", "\n¿Seguro que quieres salir?")
+        if respuesta=="yes":
+            ventana.quit()
 
-    salir=Button(barra, text="Salir", command=salir)
-    salir.pack(side=RIGHT, padx=2, pady=2)
-
-    barra.pack(side=TOP, fill=X)
-
+    salir=Button(ventana, text="Salir", command=salir)
+    salir.pack()
+    salir.place(in_=ventana, anchor="c", relx=0.05, rely=0.05)
+     
+    
 crearventana(principal)
-crearbarra(principal)
-
 
 principal.mainloop()
+
+
+
+
