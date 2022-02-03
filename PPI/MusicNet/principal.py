@@ -2,7 +2,7 @@
 from tkinter import *
 from tkinter import messagebox
 from acceder import *
-
+import acceder
 
 
 #from PIL import ImageTk, Image
